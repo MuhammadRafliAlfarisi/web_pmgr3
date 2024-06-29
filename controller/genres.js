@@ -54,6 +54,34 @@ router.get("/genres", authenticateToken, async (req, res) => {
   }
 });
 
+router.get("/genres/:id_genre", async (req, res) => {
+  const { id_genre } = req.params;
+
+  try {
+      const { data: genres, error } = await supabase
+          .from("genres")
+          .select(`
+              *
+          `)
+          .eq("id_genre", id_genre);
+
+      if (error) {
+          console.error(error);
+          return res.status(500).json({
+              success: false,
+              message: error.message
+          });
+      }
+
+      return res.status(200).json({
+          success: true,
+          data: genres[0]
+      });
+  } catch (error) {
+
+  }
+});
+
 router.post("/genres", authenticateToken, async (req, res) => {
 
   const { name } = req.body;
