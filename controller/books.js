@@ -16,7 +16,7 @@ router.get("/books", async (req, res) => {
         const { data: books, error } = await supabase
             .from("books")
             .select(`
-                *,(genres(*))
+                *,genres(*)
             `)
             .order("id_book");
 
